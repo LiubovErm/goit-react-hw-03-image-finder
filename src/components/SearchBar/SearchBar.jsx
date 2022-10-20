@@ -3,7 +3,7 @@ import { FiSearch } from "react-icons/fi";
 import { toast } from 'react-toastify';
 import { Form, Input, Button } from './SearchBar.styled'
 
-export default class Searchbar extends Component {
+export class SearchBar extends Component {
   state = {
     imagesName: '',
   };
