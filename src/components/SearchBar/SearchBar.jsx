@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { FiSearch } from "react-icons/fi";
 import { toast } from 'react-toastify';
 import { Form, Input, Button } from './SearchBar.styled'
+import PropTypes from 'prop-types';
 
 export class SearchBar extends Component {
   state = {
@@ -33,6 +34,8 @@ export class SearchBar extends Component {
             type="text"
             name="imageName"
             onChange={this.handleImageChange}
+            autoComplete="off"
+            value={this.state.imagesName}
           />
            <Button type="submit">
               <FiSearch size="15" />
@@ -42,3 +45,7 @@ export class SearchBar extends Component {
     );
   }
 }
+
+SearchBar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};

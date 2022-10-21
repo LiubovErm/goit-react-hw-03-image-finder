@@ -8,4 +8,3 @@ export const fetchImages = async (query, page) => {
   );
   return response;
 };
-
