@@ -7,7 +7,6 @@ import { Box } from '../Box/Box';
 import { toast } from 'react-toastify';
 import { Loader } from '../Loader/Loader';
 
-
 const Status = {
   IDLE: 'idle',
   PENDING: 'pending',
@@ -43,7 +42,7 @@ export class MakeImageGallery extends Component {
                      this.setState({showBtnLoadMore: true });
                       } else {
                      toast.error('Sorry, there are no images matching your search query. Please try again.', { theme: "colored" });
-                     this.setState({showBtnLoadMore: false });
+                     this.setState({showBtnLoadMore: false, status: Status.REJECTED});
                      }
                    if (images.totalHits <= 12) {
                      this.setState({showBtnLoadMore: false});}
