@@ -5,6 +5,7 @@ export const Form = styled.form`
   top: 0;
   left: 0;
   width: 100%;
+  height: 60px;
   z-index: 2;
   display: flex;
   align-items: center;
@@ -13,11 +14,11 @@ export const Form = styled.form`
 `;
 
 export const Input = styled.input`
-  font-size:  ${props => props.theme.fontSizes.s};
-  height: 40px;
-  max-width: 250px;
+  max-width: 300px;
   width: 100%;
-  margin-right: ${props => props.theme.space[2]}px;
+  height: 40px;
+  font-size:  ${props => props.theme.fontSizes.s};
+  margin-right: ${props => props.theme.space[3]}px;
   border-radius: ${props => props.theme.radii.normal};
 
   &:hover,
@@ -28,8 +29,8 @@ export const Input = styled.input`
 
 export const Button = styled.button`
   cursor: pointer;  
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   border: none;
   border-radius: ${props => props.theme.radii.normal};
   background-color:${props => props.theme.colors.green};
