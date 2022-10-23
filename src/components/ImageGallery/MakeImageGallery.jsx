@@ -25,6 +25,7 @@ export class MakeImageGallery extends Component {
     showModal: false,
     showBtnLoadMore: false,
     showLoader: false,
+    smoothScroll: false,
   };
 
   componentDidUpdate = prevProps => {
@@ -51,6 +52,7 @@ export class MakeImageGallery extends Component {
                   images: [...images.hits],
                   status: Status.RESOLVED,
                   showLoader: false,
+                  smoothScroll: true,
                   });
               })
              .catch(error => this.setState({ error, status: Status.REJECTED }));
@@ -65,7 +67,8 @@ export class MakeImageGallery extends Component {
         this.setState({ status: Status.PENDING, showLoader: true });
         const page = this.state.page;
         const nextImage = this.props.imagesName;
-        
+        const { smoothScroll } = this.state;
+
         fetchPictures(nextImage, page)
           .then(images => {
               if (page === Math.ceil(images.totalHits / 12)) {
@@ -77,7 +80,9 @@ export class MakeImageGallery extends Component {
                 images: [...prevState.images, ...images.hits],
                 status: Status.RESOLVED,
                 showLoader: false,
+                smoothScroll: true,
             }));
+            if (smoothScroll) {this.windowScroll();}
           })
           .catch(error => this.setState({ error, status: Status.REJECTED }));
       }
@@ -95,6 +100,14 @@ export class MakeImageGallery extends Component {
     }));
   };
     
+  windowScroll = () => {
+    window.scrollBy({
+      top: 220,
+      left: 0,
+      behavior: 'smooth',
+    });
+  };
+
   render() {
    const { status, images, largeImage, showModal, showBtnLoadMore, showLoader } = this.state;
 
