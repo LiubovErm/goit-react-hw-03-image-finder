@@ -5,6 +5,7 @@ import { Button } from '../Button/Button';
 import { Modal } from '../Modal/Modal';
 import { Box } from '../Box/Box';
 import { toast } from 'react-toastify';
+import { Loader } from '../Loader/Loader';
 
 
 const Status = {
@@ -23,6 +24,7 @@ export class MakeImageGallery extends Component {
     error: null,
     showModal: false,
     showBtnLoadMore: false,
+    showLoader: false,
   };
 
   componentDidUpdate = prevProps => {
@@ -30,7 +32,7 @@ export class MakeImageGallery extends Component {
     const nextImage = this.props.imagesName; 
       
     if (prevImage !== nextImage) {
-      this.setState({ status: Status.PENDING, page: 1 }, () => {
+      this.setState({ status: Status.PENDING, page: 1, showLoader: true }, () => {
         const page = this.state.page;
 
           fetchPictures(nextImage, page)
@@ -48,6 +50,7 @@ export class MakeImageGallery extends Component {
                   this.setState({
                   images: [...images.hits],
                   status: Status.RESOLVED,
+                  showLoader: false,
                   });
               })
              .catch(error => this.setState({ error, status: Status.REJECTED }));
@@ -59,7 +62,7 @@ export class MakeImageGallery extends Component {
         
     this.setState(
       prevState => ({page: (prevState.page += 1),}),() => {
-        this.setState({ status: Status.PENDING });
+        this.setState({ status: Status.PENDING, showLoader: true });
         const page = this.state.page;
         const nextImage = this.props.imagesName;
         
@@ -73,6 +76,7 @@ export class MakeImageGallery extends Component {
             this.setState(prevState => ({
                 images: [...prevState.images, ...images.hits],
                 status: Status.RESOLVED,
+                showLoader: false,
             }));
           })
           .catch(error => this.setState({ error, status: Status.REJECTED }));
@@ -92,22 +96,24 @@ export class MakeImageGallery extends Component {
   };
     
   render() {
-   const { status, images, largeImage, showModal, showBtnLoadMore } = this.state;
+   const { status, images, largeImage, showModal, showBtnLoadMore, showLoader } = this.state;
 
     if (status === 'pending') {
       return (
-        <Box>
+        <Box maxWidth={1500} mx='auto'>
           <ImageGallery images={images} onImageClick={this.openModal}
           />
           {showBtnLoadMore && (<Button nextPage={this.onNextPage} />
           )}
+          {showLoader && (<Loader />)}
         </Box>
       );
     }
 
     if (status === 'resolved') {
       return (
-        <Box>
+        <Box maxWidth={1500} mx='auto'>
+          {showLoader && (<Loader />)}
           <ImageGallery images={images} onImageClick={this.openModal}
           />
           {showModal && (<Modal largeImage={largeImage} onClose={this.toggleModal}
