@@ -6,6 +6,7 @@ import { Modal } from '../Modal/Modal';
 import { Box } from '../Box/Box';
 import { toast } from 'react-toastify';
 import { Loader } from '../Loader/Loader';
+import PropTypes from 'prop-types';
 
 const Status = {
   IDLE: 'idle',
@@ -138,4 +139,8 @@ export class MakeImageGallery extends Component {
     }
   }
 }
+
+MakeImageGallery.propTypes = {
+  imagesName: PropTypes.string.isRequired,
+};
 
