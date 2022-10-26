@@ -110,38 +110,26 @@ export class MakeImageGallery extends Component {
    const { status, images, largeImage, showModal, showBtnLoadMore, showLoader } = this.state;
      
     if (status === 'idle') {
-       return (<Box width = {500} height = {500} mx='auto' pt = {100} fontSize = {56} fontWeight ={500} display ="flex" justifyContent="center" > Введіть щось </Box>)
+       return (
+       <Box width = {500} height = {500} mx='auto' pt = {100} fontSize = {56} fontWeight ={500} display ="flex" justifyContent="center" > Введіть щось </Box>
+       )
     }
 
     if (status === 'rejected') {
-      return (<Box width = {500} mx='auto' pt = {100} display ="flex" justifyContent="center" > 
+      return (
+      <Box width = {500} mx='auto' pt = {100} display ="flex" justifyContent="center" > 
       <RejectedBox src = {oops}/>
-      </Box>)
+      </Box>
+      )
     }
 
-    if (status === 'pending') {
+    if (status === 'pending'|| status === 'resolved') {
       return (
         <Box maxWidth={1500} mx='auto'>
-          <ImageGallery images={images} onImageClick={this.openModal}
-          />
-          {showBtnLoadMore && (<Button nextPage={this.onNextPage} />
-          )}
+          <ImageGallery images={images} onImageClick={this.openModal}/>
+          {showModal && (<Modal largeImage={largeImage} onClose={this.toggleModal}/>)}
+          {showBtnLoadMore && (<Button nextPage={this.onNextPage} />)}
           {showLoader && (<Loader />)}
-        </Box>
-      );
-    }
-
-    if (status === 'resolved') {
-      return (
-        <Box maxWidth={1500} mx='auto'>
-          {showLoader && (<Loader />)}
-          <ImageGallery images={images} onImageClick={this.openModal}
-          />
-          {showModal && (<Modal largeImage={largeImage} onClose={this.toggleModal}
-              />
-          )}
-          {showBtnLoadMore && (<Button nextPage={this.onNextPage} />
-          )}
         </Box>
       );
     }
