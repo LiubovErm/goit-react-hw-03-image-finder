@@ -22,7 +22,7 @@ export class App extends Component {
       <Box>
         <SearchBar onSubmit={this.handleFormSubmit}/>
         <MakeImageGallery imagesName={imagesName} />
-        <ToastContainer autoClose={1000}/>
+        <ToastContainer autoClose={2000}/>
       </Box>
     
     );

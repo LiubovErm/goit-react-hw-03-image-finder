@@ -10,3 +10,8 @@ export const ImageList = styled.ul`
   margin-top: 80px;
   margin-bottom: 30px;
 `;
+
+export const RejectedBox = styled.img`
+  display: block;
+  width: 100%;
+`;

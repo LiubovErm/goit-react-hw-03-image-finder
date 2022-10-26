@@ -7,6 +7,8 @@ import { Box } from '../Box/Box';
 import { toast } from 'react-toastify';
 import { Loader } from '../Loader/Loader';
 import PropTypes from 'prop-types';
+import oops from '../ImageGallery/oops.png'
+import { RejectedBox } from './ImageGallery.styled';
 
 const Status = {
   IDLE: 'idle',
@@ -36,29 +38,25 @@ export class MakeImageGallery extends Component {
       this.setState({ status: Status.PENDING, page: 1, showLoader: true }, () => {
         const page = this.state.page;
 
-          fetchPictures(nextImage, page)
-              .then(images => {
-                   if (images.totalHits !== 0) {
-                     toast.success(`Hooray! We found ${images.totalHits} images.`, { theme: "colored" });
-                     this.setState({showBtnLoadMore: true });
-                      } else {
-                     toast.error('Sorry, there are no images matching your search query. Please try again.', { theme: "colored" });
-                     this.setState({showBtnLoadMore: false, status: Status.REJECTED});
-                     }
-                   if (images.totalHits <= 12) {
-                     this.setState({showBtnLoadMore: false});}
-                 
-                  this.setState({
-                  images: [...images.hits],
-                  status: Status.RESOLVED,
-                  showLoader: false,
-                  smoothScroll: true,
-                  });
-              })
-             .catch(error => this.setState({ error, status: Status.REJECTED }));
-      });
-    }
-  };
+        fetchPictures(nextImage, page)
+        .then(images => {
+             if (images.totalHits !== 0) {
+               toast.success(`Hooray! We found ${images.totalHits} images.`, { theme: "colored" });
+               this.setState({showBtnLoadMore: true });
+                } if (images.totalHits <= 12) {
+               this.setState({showBtnLoadMore: false});}
+           
+            this.setState({
+            images: [...images.hits],
+            status: Status.RESOLVED,
+            showLoader: false,
+            smoothScroll: true,
+            });
+        })
+       .catch(error => this.setState({ error, status: Status.REJECTED }));
+});
+}
+};
 
   onNextPage = () => {
         
@@ -110,6 +108,16 @@ export class MakeImageGallery extends Component {
 
   render() {
    const { status, images, largeImage, showModal, showBtnLoadMore, showLoader } = this.state;
+     
+    if (status === 'idle') {
+       return (<Box width = {500} height = {500} mx='auto' pt = {100} fontSize = {56} fontWeight ={500} display ="flex" justifyContent="center" > Введіть щось </Box>)
+    }
+
+    if (status === 'rejected') {
+      return (<Box width = {500} mx='auto' pt = {100} display ="flex" justifyContent="center" > 
+      <RejectedBox src = {oops}/>
+      </Box>)
+    }
 
     if (status === 'pending') {
       return (
