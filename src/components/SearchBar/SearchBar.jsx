@@ -25,7 +25,6 @@ export class SearchBar extends Component {
     this.setState({ imagesName: '' });
   };
 
-
   render() {
     
     return (
